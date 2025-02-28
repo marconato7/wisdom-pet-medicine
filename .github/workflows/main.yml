@@ -25,6 +25,4 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
 
       - name: build and push container imagem
-        run:
-          docker build ./ -f ./Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-api:${{ github.sha }}
-          docker push ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-api:${{ github.sha }}
+        run: docker build ./ -f ./Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-api:${{ github.sha }}
