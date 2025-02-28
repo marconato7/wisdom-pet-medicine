@@ -8,3 +8,17 @@ dotnet sln add .\Wpm.Management.Api\
 dotnet add package Microsoft.EntityFrameworkCore.InMemory
 
 docker run --rm -it ubuntu
+
+az containerapp env create --name wpmcontainerappenv --resource-group wpm --location brazilsoutheast --logs-destination azure-monitor
+
+az containerapp create --name wpm-management `
+--resource-group wpm `
+--image wpmacrjam.azurecr.io/wpm-management-api:28022025.9 `
+--environment wpmcontainerappenv `
+--ingress external `
+--target-port 8080 `
+--registry-server wpmacrjam.azurecr.io `
+--registry-username wpmacrjam `
+--registry-password  `
+--query properties.configuration.ingress.fqdn
+
