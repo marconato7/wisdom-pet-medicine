@@ -61,4 +61,10 @@ public class PetsController : ControllerBase
             value:       pet
         );
     }
+
+    [HttpPut("api/pets{id}", Name = nameof(ModifyPet))]
+    public async Task<IActionResult> ModifyPet([FromRoute] int id)
+    {
+        return Ok(id);
+    }
 }

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Caching.Memory;
 using Wpm.Clinic.Api.Data;
 using Wpm.Clinic.Api.Entities;
 using Wpm.Clinic.Api.Services;
@@ -6,24 +7,30 @@ namespace Wpm.Clinic.Api.Application;
 
 public sealed class ClinicApplicationService
 (
-    ClinicDbContext   clinicDbContext,
-    ManagementService managementService
+    ClinicDbContext clinicDbContext,
+    ManagementService managementService,
+    IMemoryCache memoryCache
 )
 {
-    private readonly ClinicDbContext   _clinicDbContext   = clinicDbContext;
+    private readonly ClinicDbContext _clinicDbContext = clinicDbContext;
     private readonly ManagementService _managementService = managementService;
+    private readonly IMemoryCache _memoryCache = memoryCache;
 
     public async Task<Consultation?> Handle
     (
         StartConsultationCommand command,
-        CancellationToken        cancellationToken = default
+        CancellationToken cancellationToken = default
     )
     {
-        var petInfo = await _managementService.GetPetInfoById(command.PatientId);
-        if (petInfo is null)
-        {
-            return null;
-        }
+        PetInfo? petInfo = await _memoryCache.GetOrCreateAsync
+        (
+            command.PatientId,
+            async cacheEntry =>
+            {
+                cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30);
+                return await _managementService.GetPetInfoById(command.PatientId);
+            }
+        );
 
         var consultation = new Consultation
         (

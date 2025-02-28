@@ -6,6 +6,8 @@ using Wpm.Clinic.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<ManagementService>();
