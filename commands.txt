@@ -7,3 +7,4 @@ dotnet sln add .\Wpm.Management.Api\
 
 dotnet add package Microsoft.EntityFrameworkCore.InMemory
 
+docker run --rm -it ubuntu
