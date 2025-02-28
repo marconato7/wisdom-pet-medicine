@@ -1,6 +1,8 @@
 
 dotnet new webapi -n Wpm.Management.Api --use-controllers
 
+dotnet new webapi -n Wpm.Clinic.Api --use-controllers
+
 dotnet new sln -n Wpm
 
 dotnet sln add .\Wpm.Management.Api\
@@ -19,6 +21,16 @@ az containerapp create --name wpm-management `
 --target-port 8080 `
 --registry-server wpmacrjam.azurecr.io `
 --registry-username wpmacrjam `
---registry-password  `
+--registry-password `
+--query properties.configuration.ingress.fqdn
+
+az containerapp create --name wpm-clinic `
+--resource-group wpm `
+--environment wpmcontainerappenv `
+--ingress external `
+--target-port 8080 `
+--registry-server wpmacrjam.azurecr.io `
+--registry-username wpmacrjam `
+--registry-password `
 --query properties.configuration.ingress.fqdn
 

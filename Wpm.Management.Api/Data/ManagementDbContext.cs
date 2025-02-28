@@ -16,17 +16,17 @@ public sealed class ManagementDbContext(DbContextOptions options) : DbContext(op
         (
             [
                 new Breed(1, "Beagle"),
-                new Breed(2, "Staffordshire Retriever"),
-                new Breed(3, "Golden Retriever"),
+                new Breed(2, "Golden Retriever"),
+                new Breed(3, "Poodle"),
             ]
         );
 
         modelBuilder.Entity<Pet>().HasData
         (
             [
-                new Pet { Id = 1, Name = "Totó",    Age = 1, BreedId = 1 },
-                new Pet { Id = 2, Name = "Belinha", Age = 1, BreedId = 2 },
-                new Pet { Id = 3, Name = "Bailey",  Age = 1, BreedId = 3 },
+                new Pet { Id = 1, Name = "Belinha", Age = 1,            BreedId = 3 },
+                new Pet { Id = 2, Name = "Bailey",  Age = 2,            BreedId = 2 },
+                new Pet { Id = 3, Name = "Snoopy",  Age = int.MaxValue, BreedId = 1 },
             ]
         );
     }

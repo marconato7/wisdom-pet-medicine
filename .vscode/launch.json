@@ -1,0 +1,20 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C#: Wpm.Clinic.Api Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Wpm.Clinic.Api/Wpm.Clinic.Api.csproj"
+        },
+        {
+            "name": "C#: Wpm.Management.Api Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Wpm.Management.Api/Wpm.Management.Api.csproj"
+        }
+    ]
+}

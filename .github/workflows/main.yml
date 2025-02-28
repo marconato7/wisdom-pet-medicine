@@ -27,13 +27,13 @@ jobs:
       - name: get current date
         run: echo "DATE_TIME=$(date +'%d%m%Y')" >> $GITHUB_ENV
 
-      - name: build container image
-        run: docker build ./ -f ./Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-api:${{ env.DATE_TIME }}.${{ github.run_number}}
+      - name: build management container image
+        run: docker build ./Wpm.Management.Api -f ./Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-api:${{ env.DATE_TIME }}.${{ github.run_number}}
 
-      - name: push container image
+      - name: push management container image
         run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-api:${{ env.DATE_TIME }}.${{ github.run_number}}
 
-      - name: deploy to container apps
+      - name: deploy management to container apps
         uses: azure/container-apps-deploy-action@v2
         with:
           acrName: ${{ secrets.ACR_USERNAME }}
@@ -42,3 +42,21 @@ jobs:
           containerAppName: wpm-management
           resourceGroup: wpm
           imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-api:${{ env.DATE_TIME }}.${{ github.run_number}}
+          environmentVariables: Logging__LogLevel__Microsoft.EntityFrameworkCore=Debug
+
+      - name: build clinic container image
+        run: docker build ./Wpm.Clinic.Api -f ./Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/wpm-clinic-api:${{ env.DATE_TIME }}.${{ github.run_number}}
+  
+      - name: push clinic container image
+        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/wpm-clinic-api:${{ env.DATE_TIME }}.${{ github.run_number}}
+  
+      - name: deploy clinic to container apps
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          acrName: ${{ secrets.ACR_USERNAME }}
+          acrUsername: ${{ secrets.ACR_USERNAME }}
+          acrPassword: ${{ secrets.ACR_PASSWORD }}
+          containerAppName: wpm-clinic
+          resourceGroup: wpm
+          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-clinic:${{ env.DATE_TIME }}.${{ github.run_number}}
+          environmentVariables: Logging__LogLevel__Microsoft.EntityFrameworkCore=Debug Wpm__ManagementServiceUri=http://wpm-management
