@@ -28,7 +28,7 @@ jobs:
         run: echo "DATE_TIME=$(date +'%d%m%Y')" >> $GITHUB_ENV
 
       - name: build management container image
-        run: docker build ./Wpm.Management.Api -f ./Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-api:${{ env.DATE_TIME }}.${{ github.run_number}}
+        run: docker build Wpm.Management.Api -f ./Wpm.Management.Api/Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-api:${{ env.DATE_TIME }}.${{ github.run_number}}
 
       - name: push management container image
         run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/wpm-management-api:${{ env.DATE_TIME }}.${{ github.run_number}}
@@ -45,7 +45,7 @@ jobs:
           environmentVariables: Logging__LogLevel__Microsoft.EntityFrameworkCore=Debug
 
       - name: build clinic container image
-        run: docker build ./Wpm.Clinic.Api -f ./Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/wpm-clinic-api:${{ env.DATE_TIME }}.${{ github.run_number}}
+        run: docker build Wpm.Clinic.Api -f ./Wpm.Clinic.Api/Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/wpm-clinic-api:${{ env.DATE_TIME }}.${{ github.run_number}}
   
       - name: push clinic container image
         run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/wpm-clinic-api:${{ env.DATE_TIME }}.${{ github.run_number}}
