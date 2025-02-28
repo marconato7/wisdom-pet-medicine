@@ -1,0 +1,9 @@
+
+dotnet new webapi -n Wpm.Management.Api --use-controllers
+
+dotnet new sln -n Wpm
+
+dotnet sln add .\Wpm.Management.Api\
+
+dotnet add package Microsoft.EntityFrameworkCore.InMemory
+
